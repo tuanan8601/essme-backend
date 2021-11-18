@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class Expert {
 
     @Id
-    @JsonProperty("_id")
+    @JsonProperty(value = "_id", access = JsonProperty.Access.READ_ONLY)
     private String _id;
 
     @JsonProperty("_index")
