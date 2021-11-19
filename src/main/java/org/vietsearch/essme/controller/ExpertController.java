@@ -9,10 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.vietsearch.essme.model.Expert;
+import org.vietsearch.essme.repository.ExpertCustomRepositoryImpl;
 import org.vietsearch.essme.repository.ExpertRepository;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -20,6 +22,9 @@ import java.util.List;
 public class ExpertController {
     @Autowired
     private ExpertRepository expertRepository;
+
+    @Autowired
+    private ExpertCustomRepositoryImpl expertCustomRepository;
 
     @GetMapping("/search")
     public List<Expert> searchExperts(@RequestParam("what") String what) {
@@ -40,6 +45,11 @@ public class ExpertController {
     @GetMapping("/{id}")
     public Expert findById(@PathVariable("id") String id) {
         return expertRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Expert not found", null));
+    }
+
+    @GetMapping("/field")
+    public Map<String, Integer> getNumberOfExpertsInEachField(){
+        return this.expertCustomRepository.getNumberOfExpertsInEachField();
     }
 
     @PutMapping("/{id}")
