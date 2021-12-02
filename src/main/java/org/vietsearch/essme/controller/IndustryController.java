@@ -21,7 +21,7 @@ public class IndustryController {
     private IndustryRepository industryRepository;
 
     @GetMapping("/search")
-    public List<Industry> searchExperts(@RequestParam("name") String name) {
+    public List<Industry> searchIndustries(@RequestParam("name") String name) {
         TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingPhrase(name);
         List<Industry> list = industryRepository.findBy(criteria);
         if (list.isEmpty())
