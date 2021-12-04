@@ -32,6 +32,12 @@ public class Answer_questionController {
         return questionPage.getContent();
     }
 
+    @GetMapping("/totalpages")
+    public int getQuestionTotalPage(@RequestParam(value = "size", defaultValue = "20") int size) {
+        Page<Question> questionPage = questionRepository.findAll(PageRequest.of(0,size));
+        return questionPage.getTotalPages();
+    }
+
     @GetMapping("/topic/{topic}")
     public List<Question> getQuestionsbyTopic(@PathVariable("topic") String topic,@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "20") int size, @RequestParam(value = "sort", defaultValue = "createdAt") String sortAttr, @RequestParam(value = "desc", defaultValue = "false") boolean desc) {
         Sort sort = Sort.by(sortAttr);
@@ -40,6 +46,12 @@ public class Answer_questionController {
 
         Page<Question> questionPage = questionRepository.findByTopic(topic,PageRequest.of(page, size, sort));
         return questionPage.getContent();
+    }
+
+    @GetMapping("/topic/{topic}/totalpages")
+    public int getQuestionbyTopicTotalPage(@PathVariable("topic") String topic, @RequestParam(value = "size", defaultValue = "20") int size) {
+        Page<Question> questionPage = questionRepository.findByTopic(topic,PageRequest.of(0, size));
+        return questionPage.getTotalPages();
     }
 
     @PostMapping
