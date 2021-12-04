@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.vietsearch.essme.model.answer_question.Answer;
 import org.vietsearch.essme.model.answer_question.Question;
 import org.vietsearch.essme.repository.AnswerQuestionRepository;
 
@@ -82,5 +83,13 @@ public class AnswerQuestionController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null);
         }
+    }
+
+    @PostMapping("/{id}/answers/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Question addQuestion(@PathVariable("id") String id, @RequestHeader(value = "accept-language", required = false, defaultValue = "en") String lang, @Valid @RequestBody Answer answer) {
+        Question question = questionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null));
+        question.getAnswers().add(answer);
+        return questionRepository.save(question);
     }
 }
