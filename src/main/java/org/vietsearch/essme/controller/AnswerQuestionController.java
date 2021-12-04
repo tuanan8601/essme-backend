@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.vietsearch.essme.model.answer_question.Answer;
 import org.vietsearch.essme.model.answer_question.Question;
+import org.vietsearch.essme.model.expert.Expert;
 import org.vietsearch.essme.repository.AnswerQuestionRepository;
 
 import javax.validation.Valid;
@@ -36,6 +38,12 @@ public class AnswerQuestionController {
 
         Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page, size, sort));
         return questionPage.getContent();
+    }
+
+    @GetMapping("/search")
+    public List<Question> searchQuestions(@RequestParam("text") String text) {
+        TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingPhrase(text);
+        return questionRepository.findBy(criteria);
     }
 
     @GetMapping("/totalpages")
