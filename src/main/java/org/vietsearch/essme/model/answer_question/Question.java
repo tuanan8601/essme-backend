@@ -38,6 +38,7 @@ public class Question {
 
 	@JsonProperty("Title")
 	@Field("Title")
+	@NotBlank(message = "{vi=\"nội dung trống\", en=\"content is empty\"}")
 	private String title;
 
 	@Id
