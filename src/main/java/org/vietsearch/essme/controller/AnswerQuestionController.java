@@ -95,9 +95,9 @@ public class AnswerQuestionController {
 
     @PostMapping("/{questionId}/answers")
     @ResponseStatus(HttpStatus.CREATED)
-    public Question addAnswer(@PathVariable("questionId") String id, @RequestHeader(value = "accept-language", required = false, defaultValue = "en") String lang, @Valid @RequestBody Answer answer) {
+    public Question addAnswer(@PathVariable("questionId") String questionId, @RequestHeader(value = "accept-language", required = false, defaultValue = "en") String lang, @Valid @RequestBody Answer answer) {
         System.out.println(lang);
-        Question question = questionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null));
+        Question question = questionRepository.findById(questionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null));
         if(question.getAnswers()==null)
             question.setAnswers(new ArrayList<>());
         answer.setCreatedAt(new DateTime(new Date()).toString());
@@ -107,7 +107,7 @@ public class AnswerQuestionController {
     }
     @GetMapping("/{questionId}/answers/{answerId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Answer getAnswerbyId(@PathVariable("questionId") String id,@PathVariable("answerId") String answerId) {
+    public Answer getAnswerbyId(@PathVariable("questionId") String questionId,@PathVariable("answerId") String answerId) {
         return new Answer();
     }
 }
