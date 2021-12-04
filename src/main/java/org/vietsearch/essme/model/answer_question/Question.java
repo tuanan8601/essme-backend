@@ -16,7 +16,7 @@ public class Question {
 	@JsonProperty("createdAt")
 	@Field("createdAt")
 	@DateTimeFormat
-	private DateTime createdAt;
+	private String createdAt;
 
 	@JsonProperty("Description")
 	@Field("Description")
@@ -48,5 +48,5 @@ public class Question {
 	@JsonProperty("updatedAt")
 	@Field("updatedAt")
 	@DateTimeFormat
-	private DateTime updatedAt;
+	private String updatedAt;
 }
