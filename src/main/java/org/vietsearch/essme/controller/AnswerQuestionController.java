@@ -62,8 +62,7 @@ public class AnswerQuestionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Question addQuestion(@RequestHeader(value = "accept-language", required = false, defaultValue = "en") String lang, @Valid @RequestBody Question question) {
-        System.out.println(lang);
+    public Question addQuestion(@Valid @RequestBody Question question) {
         question.setCreatedAt(new DateTime(new Date()).toString());
         question.setUpdatedAt(new DateTime(new Date()).toString());
         questionRepository.save(question);
@@ -95,8 +94,7 @@ public class AnswerQuestionController {
 
     @PostMapping("/{questionId}/answers")
     @ResponseStatus(HttpStatus.CREATED)
-    public Question addAnswer(@PathVariable("questionId") String questionId, @RequestHeader(value = "accept-language", required = false, defaultValue = "en") String lang, @Valid @RequestBody Answer answer) {
-        System.out.println(lang);
+    public Question addAnswer(@PathVariable("questionId") String questionId, @Valid @RequestBody Answer answer) {
         Question question = questionRepository.findById(questionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null));
         if(question.getAnswers()==null)
             question.setAnswers(new ArrayList<>());
