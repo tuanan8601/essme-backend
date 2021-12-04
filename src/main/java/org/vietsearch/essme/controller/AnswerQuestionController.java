@@ -81,9 +81,10 @@ public class AnswerQuestionController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteQuestion(@PathVariable("id") String id){
+    public String deleteQuestion(@PathVariable("id") String id){
         if (questionRepository.existsById(id)) {
             questionRepository.deleteById(id);
+            return "Deleted";
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null);
         }
@@ -140,13 +141,14 @@ public class AnswerQuestionController {
 
     @DeleteMapping("/{questionId}/answers/{answerId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteAnswer(@PathVariable("questionId") String questionId,@PathVariable("answerId") String answerId){
+    public String deleteAnswer(@PathVariable("questionId") String questionId,@PathVariable("answerId") String answerId){
         Question question = questionRepository.findById(questionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null));
         if(question.getAnswers()!=null) {
             for (Answer answer1 : question.getAnswers()) {
                 if (answer1.get_id().equals(answerId)) {
                     question.getAnswers().remove(answer1);
                     questionRepository.save(question);
+                    return "Deleted";
                 }
             }
         }
