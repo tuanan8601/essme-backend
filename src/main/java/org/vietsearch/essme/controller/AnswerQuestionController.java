@@ -63,8 +63,6 @@ public class AnswerQuestionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Question addQuestion(@Valid @RequestBody Question question) {
-        question.setCreatedAt(new DateTime(new Date()).toString());
-        question.setUpdatedAt(new DateTime(new Date()).toString());
         questionRepository.save(question);
         return questionRepository.save(question);
     }
@@ -74,7 +72,6 @@ public class AnswerQuestionController {
     public Question updateQuestion(@PathVariable("id") String id,@Valid @RequestBody Question question){
         if (questionRepository.existsById(id)) {
             question.set_id(id);
-            question.setUpdatedAt(new DateTime(new Date()).toString());
             questionRepository.save(question);
             return question;
         } else {
@@ -98,8 +95,6 @@ public class AnswerQuestionController {
         Question question = questionRepository.findById(questionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null));
         if(question.getAnswers()==null)
             question.setAnswers(new ArrayList<>());
-        answer.setCreatedAt(new DateTime(new Date()).toString());
-        answer.setUpdatedAt(new DateTime(new Date()).toString());
         question.getAnswers().add(answer);
         return questionRepository.save(question);
     }
