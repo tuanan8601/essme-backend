@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 public class University{
 
 	@Id
-	@JsonProperty("_id")
+	@JsonProperty(value = "_id", access = JsonProperty.Access.READ_ONLY)
 	private String _id;
 
 	@JsonProperty("country")
