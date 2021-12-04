@@ -98,8 +98,43 @@ public class AnswerQuestionController {
         question.getAnswers().add(answer);
         return questionRepository.save(question);
     }
+
+    @GetMapping("/{questionId}/answers")
+    public List<Answer> getAnswers(@PathVariable("questionId") String questionId){
+        Question question = questionRepository.findById(questionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null));
+        return question.getAnswers();
+    }
+
     @GetMapping("/{questionId}/answers/{answerId}")
-    public Answer getAnswerbyId(@PathVariable("questionId") String questionId,@PathVariable("answerId") String answerId) {
-        return new Answer();
+    public Answer getAnswerbyId(@PathVariable("questionId") String questionId, @PathVariable("answerId") String answerId) {
+        Question question = questionRepository.findById(questionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null));
+        if(question.getAnswers()!=null) {
+            List<Answer> answerList = question.getAnswers();
+            for (Answer answer : answerList) {
+                if (answer.get_id().equals(answerId)) {
+                    return answer;
+                }
+            }
+        }
+        return null;
+    }
+
+    @PutMapping("/{questionId}/answers/{answerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Answer updateAnswer(@PathVariable("questionId") String questionId,@PathVariable("answerId") String answerId,@Valid @RequestBody Answer answer){
+        Question question = questionRepository.findById(questionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null));
+        if(question.getAnswers()!=null) {
+            for (Answer answer1 : question.getAnswers()) {
+                if (answer1.get_id().equals(answerId)) {
+                    answer1.setExpertId(answer.getExpertId());
+                    answer1.setAnswer(answer.getAnswer());
+                    answer1.setUpdatedAt(new Date());
+                    answer1.setVote(answer.getVote());
+                    questionRepository.save(question);
+                    return answer1;
+                }
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Answer not found", null);
     }
 }
