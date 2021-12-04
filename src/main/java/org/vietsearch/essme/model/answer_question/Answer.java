@@ -17,6 +17,8 @@ import java.util.Date;
 public class Answer {
 	public Answer(){
 		this._id=new ObjectId().toString();
+		this.createdAt=new Date();
+		this.updatedAt=new Date();
 	}
 	@Id
 	@JsonProperty(value = "_id", access = JsonProperty.Access.READ_ONLY)

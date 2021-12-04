@@ -99,7 +99,6 @@ public class AnswerQuestionController {
         return questionRepository.save(question);
     }
     @GetMapping("/{questionId}/answers/{answerId}")
-    @ResponseStatus(HttpStatus.CREATED)
     public Answer getAnswerbyId(@PathVariable("questionId") String questionId,@PathVariable("answerId") String answerId) {
         return new Answer();
     }
