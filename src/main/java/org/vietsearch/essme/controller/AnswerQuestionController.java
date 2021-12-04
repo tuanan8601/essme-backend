@@ -8,16 +8,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.vietsearch.essme.model.answer_question.Question;
-import org.vietsearch.essme.repository.Answer_questionRepository;
+import org.vietsearch.essme.repository.AnswerQuestionRepository;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/questions")
-public class Answer_questionController {
+public class AnswerQuestionController {
     @Autowired
-    private Answer_questionRepository questionRepository;
+    private AnswerQuestionRepository questionRepository;
 
     @GetMapping("/{id}")
     public Question getQuestionbyId(@PathVariable("id") String id) {return questionRepository.findById(id).get();}

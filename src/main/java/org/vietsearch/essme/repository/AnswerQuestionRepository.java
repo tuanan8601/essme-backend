@@ -5,6 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.vietsearch.essme.model.answer_question.Question;
 
-public interface Answer_questionRepository extends MongoRepository<Question,String> {
+public interface AnswerQuestionRepository extends MongoRepository<Question,String> {
     Page<Question> findByTopic(String topic, Pageable pageable);
 }
