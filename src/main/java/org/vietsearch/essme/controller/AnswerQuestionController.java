@@ -1,5 +1,6 @@
 package org.vietsearch.essme.controller;
 
+import com.google.api.client.util.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,10 @@ import org.vietsearch.essme.model.answer_question.Question;
 import org.vietsearch.essme.repository.AnswerQuestionRepository;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -59,6 +64,8 @@ public class AnswerQuestionController {
     @ResponseStatus(HttpStatus.CREATED)
     public Question addQuestion(@RequestHeader(value = "accept-language", required = false, defaultValue = "en") String lang, @Valid @RequestBody Question question) {
         System.out.println(lang);
+        question.setCreatedAt(new DateTime(new Date()).toString());
+        question.setUpdatedAt(new DateTime(new Date()).toString());
         questionRepository.save(question);
         return questionRepository.save(question);
     }
@@ -68,6 +75,7 @@ public class AnswerQuestionController {
     public Question updateQuestion(@PathVariable("id") String id,@Valid @RequestBody Question question){
         if (questionRepository.existsById(id)) {
             question.set_id(id);
+            question.setUpdatedAt(new DateTime(new Date()).toString());
             questionRepository.save(question);
             return question;
         } else {
@@ -85,10 +93,15 @@ public class AnswerQuestionController {
         }
     }
 
-    @PostMapping("/{id}/answers/add")
+    @PostMapping("/{questionId}/answers")
     @ResponseStatus(HttpStatus.CREATED)
-    public Question addQuestion(@PathVariable("id") String id, @RequestHeader(value = "accept-language", required = false, defaultValue = "en") String lang, @Valid @RequestBody Answer answer) {
+    public Question addAnswer(@PathVariable("questionId") String id, @RequestHeader(value = "accept-language", required = false, defaultValue = "en") String lang, @Valid @RequestBody Answer answer) {
+        System.out.println(lang);
         Question question = questionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found", null));
+        if(question.getAnswers()==null)
+            question.setAnswers(new ArrayList<>());
+        answer.setCreatedAt(new DateTime(new Date()).toString());
+        answer.setUpdatedAt(new DateTime(new Date()).toString());
         question.getAnswers().add(answer);
         return questionRepository.save(question);
     }
