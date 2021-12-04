@@ -1,10 +1,13 @@
 package org.vietsearch.essme.model.answer_question;
 
+import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.api.client.util.DateTime;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,10 +16,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Document("answer_question")
 public class Question {
 
-	@JsonProperty("createdAt")
-	@Field("createdAt")
-	@DateTimeFormat
-	private String createdAt;
+	@CreatedDate
+	@JsonProperty(value = "created_at", access = JsonProperty.Access.READ_ONLY)
+	private Date createdAt;
 
 	@JsonProperty("Description")
 	@Field("Description")
@@ -45,8 +47,7 @@ public class Question {
 	@Field("vote")
 	private int vote;
 
-	@JsonProperty("updatedAt")
-	@Field("updatedAt")
-	@DateTimeFormat
-	private String updatedAt;
+	@LastModifiedDate
+	@JsonProperty(value = "updated_at", access = JsonProperty.Access.READ_ONLY)
+	private Date updatedAt;
 }

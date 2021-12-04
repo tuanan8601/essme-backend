@@ -4,10 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.api.client.util.DateTime;
 import lombok.Data;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Data
 public class Answer {
@@ -18,10 +22,9 @@ public class Answer {
 	@JsonProperty(value = "_id", access = JsonProperty.Access.READ_ONLY)
 	private String _id;
 
-	@JsonProperty("createdAt")
-	@Field("createdAt")
-	@DateTimeFormat
-	private String createdAt;
+	@CreatedDate
+	@JsonProperty(value = "created_at", access = JsonProperty.Access.READ_ONLY)
+	private Date createdAt;
 
 	@JsonProperty("answer")
 	@Field("answer")
@@ -35,8 +38,7 @@ public class Answer {
 	@Field("vote")
 	private int vote;
 
-	@JsonProperty("updatedAt")
-	@Field("updatedAt")
-	@DateTimeFormat
-	private String updatedAt;
+	@LastModifiedDate
+	@JsonProperty(value = "updated_at", access = JsonProperty.Access.READ_ONLY)
+	private Date updatedAt;
 }
