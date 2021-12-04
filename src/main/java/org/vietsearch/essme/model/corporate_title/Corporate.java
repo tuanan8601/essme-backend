@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class Corporate {
 
 	@Id
-	@JsonProperty("_id")
+	@JsonProperty(value = "_id", access = JsonProperty.Access.READ_ONLY)
 	private String _id;
 
 	@JsonProperty("types")
