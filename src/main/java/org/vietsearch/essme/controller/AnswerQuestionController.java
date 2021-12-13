@@ -1,19 +1,24 @@
 package org.vietsearch.essme.controller;
 
 import com.google.api.client.util.DateTime;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.TextCriteria;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.vietsearch.essme.filter.AuthenticatedRequest;
 import org.vietsearch.essme.model.answer_question.Answer;
 import org.vietsearch.essme.model.answer_question.Question;
 import org.vietsearch.essme.model.expert.Expert;
 import org.vietsearch.essme.repository.AnswerQuestionRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,6 +31,8 @@ import java.util.List;
 public class AnswerQuestionController {
     @Autowired
     private AnswerQuestionRepository questionRepository;
+    @Autowired
+    private HttpServletRequest httpRequest;
 
     @GetMapping("/{id}")
     public Question getQuestionbyId(@PathVariable("id") String id) {return questionRepository.findById(id).get();}
